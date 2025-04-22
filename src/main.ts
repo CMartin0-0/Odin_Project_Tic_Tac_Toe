@@ -125,8 +125,7 @@ const game = (() => {
 		roundNumber = 1;
 	};
 	return {
-		handleRound,
-		checkForWin,
+		handleRound
 	};
 })();
 
