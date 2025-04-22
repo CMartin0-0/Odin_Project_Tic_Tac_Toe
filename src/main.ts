@@ -33,7 +33,8 @@ const gameBoard = (() => {
 const game = (() => {
 	let roundNumber = 1;
 
-	const handleRound = () => {
+	const handleRound = (cell) => {
+        alert(`${player.getActivePlayer().name}'s Turn!`)
 		let playerValue = player.getActivePlayer().value;
 		let emptyCells = gameBoard
 			.getBoard()
@@ -45,7 +46,7 @@ const game = (() => {
 			checkForWin();
 		}
 
-		let cellChosen = emptyCells[0].id;
+		let cellChosen = cell;
 		gameBoard.updateBoardWithMove(cellChosen, playerValue);
 		player.switchTurn();
 		console.log(roundNumber);
