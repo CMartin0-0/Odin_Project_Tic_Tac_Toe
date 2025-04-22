@@ -9,7 +9,7 @@ const gameBoard = (() => {
 
 	const getBoard = () => board;
 
-	const updateBoardWithMove = (cell, player) => {
+	const updateBoardWithMove = (cell: number, player: string) => {
 		let boardCellSelectedIndex = board.findIndex((obj) => obj.id == cell);
 		const playerValue = player;
 
@@ -33,7 +33,7 @@ const gameBoard = (() => {
 const game = (() => {
 	let roundNumber = 1;
 
-	const handleRound = (cell) => {
+	const handleRound = (cell: number) => {
         alert(`${player.getActivePlayer().name}'s Turn!`)
 		let playerValue = player.getActivePlayer().value;
 		let emptyCells = gameBoard
@@ -53,7 +53,7 @@ const game = (() => {
 		roundNumber++;
 	};
 
-	const checkForTie = (cells) => {
+	const checkForTie = (cells: Array<object>) => {
 		if (cells.length === 0) {
 			alert('Tie Game!');
 			resetBoard();
@@ -86,12 +86,12 @@ const game = (() => {
 		];
 
 		for (let i = 0; i < winCombinations.length; i++) {
-			let winTest = [];
+			let winTest: Array<number> = [];
 			let oValues = oCells.map((cell) => cell.id);
 			let xValues = xCells.map((cell) => cell.id);
 			winCombinations[i].map((number) => winTest.push(number));
 
-			const isSubset = (array1, array2) =>
+			const isSubset = (array1: Array<number>, array2: Array<number>) =>
 				array2.every((element) => array1.includes(element));
 
 			let oWinStatus = isSubset(oValues, winTest);
