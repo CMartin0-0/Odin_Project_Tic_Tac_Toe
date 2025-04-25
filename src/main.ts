@@ -9,71 +9,60 @@ const gameBoard = (() => {
 
 	const getBoard = () => board;
 
-	const updateBoardWithMove = (cell: number, player: string) => {
+	const updateBoardWithMove = (cell: number) => {
 		let boardCellSelectedIndex = board.findIndex((obj) => obj.id == cell);
-		const playerValue = player;
+		const playerValue = player.getActivePlayer().value;
 
-		if (board[boardCellSelectedIndex].value === '') {
-			board[boardCellSelectedIndex].value = playerValue;
-		} else {
+		if (board[boardCellSelectedIndex].value !== '') {
 			alert('Please select an empty square to make move');
 			return;
+		} else {
+			board[boardCellSelectedIndex].value = playerValue;
+			if (game.getRoundNumber() >= 3) {
+				game.checkForEndCondition();
+			}
 		}
 	};
-
-	const printBoard = () => console.log(board);
 
 	return {
 		getBoard,
 		updateBoardWithMove,
-		printBoard,
 	};
 })();
 
 const game = (() => {
 	let roundNumber = 1;
 
+	const getRoundNumber = () => roundNumber;
+
+	const increaseRoundNumber = (value: number) => {
+		roundNumber = roundNumber + value;
+	};
+
+	const setRoundNumber = (value: number) => {
+		roundNumber = value;
+	};
+
 	const handleRound = (cell: number) => {
-        alert(`${player.getActivePlayer().name}'s Turn!`)
-		let playerValue = player.getActivePlayer().value;
-		let emptyCells = gameBoard
-			.getBoard()
-			.filter((board) => board.value == '');
-
-		if (emptyCells.length === 0) {
-			checkForTie(emptyCells);
-		} else if (roundNumber >= 3) {
-			checkForWin();
-		}
-
 		let cellChosen = cell;
-		gameBoard.updateBoardWithMove(cellChosen, playerValue);
+		roundNumber = game.getRoundNumber();
+
+		gameBoard.updateBoardWithMove(cellChosen);
 		player.switchTurn();
-		console.log(roundNumber);
-		roundNumber++;
+		game.increaseRoundNumber(1);
 	};
 
-	const checkForTie = (cells: Array<object>) => {
-		if (cells.length === 0) {
-			alert('Tie Game!');
-			resetBoard();
-
-			if (player.getActivePlayer().value === 'o') {
-				player.switchTurn();
-				return;
-			} else if (player.getActivePlayer().value === 'x') {
-				return;
-			}
-		}
-	};
-
-	const checkForWin = () => {
+	const checkForEndCondition = () => {
 		let oCells = gameBoard
 			.getBoard()
 			.filter((board) => board.value === 'o');
 		let xCells = gameBoard
 			.getBoard()
 			.filter((board) => board.value === 'x');
+		let emptyCells = gameBoard
+			.getBoard()
+			.filter((board) => board.value == '');
+
 		const winCombinations = [
 			[0, 1, 2],
 			[0, 3, 6],
@@ -85,48 +74,73 @@ const game = (() => {
 			[6, 7, 8],
 		];
 
+		const isSubset = (array1: Array<number>, array2: Array<number>) =>
+			array2.every((element) => array1.includes(element));
+
+		let oValues = oCells.map((cell) => cell.id);
+		let xValues = xCells.map((cell) => cell.id);
+		let emptyValues = emptyCells.map((cell) => cell.id);
+		let xTieValues = xValues.concat(emptyValues);
+		let oTieValues = oValues.concat(emptyValues);
+
+		let oTies = [];
+		let xTies = [];
+
 		for (let i = 0; i < winCombinations.length; i++) {
 			let winTest: Array<number> = [];
-			let oValues = oCells.map((cell) => cell.id);
-			let xValues = xCells.map((cell) => cell.id);
-			winCombinations[i].map((number) => winTest.push(number));
 
-			const isSubset = (array1: Array<number>, array2: Array<number>) =>
-				array2.every((element) => array1.includes(element));
+			winCombinations[i].map((number) => winTest.push(number));
 
 			let oWinStatus = isSubset(oValues, winTest);
 			let xWinStatus = isSubset(xValues, winTest);
+			xTies.push(isSubset(xTieValues, winTest));
+			oTies.push(isSubset(oTieValues, winTest));
 
 			if (oWinStatus === true) {
-				alert('Game Over! Player 2 is the winner!');
-				resetBoard();
+                alert("Player 2 Won!")
+				game.resetGame();
+			}
 
-				if (player.getActivePlayer().value === 'o') {
-					player.switchTurn();
-					return;
-				} else if (player.getActivePlayer().value === 'x') {
-					return;
-				}
-			} else if (xWinStatus === true) {
-				alert('Game Over! Player 1 is the winner!');
-				resetBoard();
+			if (xWinStatus === true) {
+                alert("Player 1 Won!")
+				game.resetGame();
+			}
 
-				if (player.getActivePlayer().value === 'o') {
-					player.switchTurn();
-					return;
-				} else if (player.getActivePlayer().value === 'x') {
-					return;
-				}
+			if (
+				oTies.every((x) => x === false) &&
+				xTies.every((x) => x === false)
+			) {
+                alert("Tie Game!")
+				game.resetGame();
+                return
 			}
 		}
 	};
 
-	const resetBoard = () => {
-		gameBoard.getBoard().forEach((board) => (board.value = ''));
-		roundNumber = 1;
+	const resetGame = () => {
+		setTimeout(() => {
+			gameBoard.getBoard().forEach((board) => (board.value = ''));
+		}, 500);
+
+		setTimeout(() => {
+			game.setRoundNumber(1);
+			handleGameDisplay.playerTurnDisplay.classList.add('hidden');
+			handleGameDisplay.roundNumberDisplay.classList.add('hidden');
+		}, 600);
+
+		setTimeout(() => {
+			handleGameDisplay.getGameInfoToDisplay();
+		}, 700);
+		player.setActivePlayer(1);
 	};
+
 	return {
-		handleRound
+		handleRound,
+		getRoundNumber,
+		increaseRoundNumber,
+		resetGame,
+		checkForEndCondition,
+		setRoundNumber,
 	};
 })();
 
@@ -150,8 +164,73 @@ const player = (() => {
 
 	const getActivePlayer = () => activePlayer;
 
+	const setActivePlayer = (playerNumber: number) => {
+		activePlayer = players[playerNumber];
+	};
+
 	return {
 		switchTurn,
 		getActivePlayer,
+		setActivePlayer,
 	};
 })();
+
+const handleGameDisplay = (() => {
+	const gameBoardDisplay = <HTMLDivElement>(
+		document.getElementById('gameboard')
+	);
+	const roundNumberDisplay = <HTMLParagraphElement>(
+		document.getElementById('round-number')
+	);
+	const playerTurnDisplay = <HTMLParagraphElement>(
+		document.getElementById('player-turn-info')
+	);
+    const resetButton = <HTMLButtonElement>(
+        document.getElementById('reset')
+    );
+
+	const getGameInfoToDisplay = () => {
+		const formattedBoard = gameBoard
+			.getBoard()
+			.map(
+				(cell) => `
+       <button id=${cell.id} class='board-cell' type='button'>${cell.value}</button>
+       `
+			)
+			.join('');
+
+		gameBoardDisplay.innerHTML = formattedBoard;
+		roundNumberDisplay.innerHTML = `Round: ${game.getRoundNumber()}`;
+		playerTurnDisplay.innerHTML = `${
+			player.getActivePlayer().name
+		}'s Turn!`;
+	};
+
+	gameBoardDisplay?.addEventListener('click', (event) => {
+		setTimeout(() => {
+			playerTurnDisplay.classList.remove('hidden');
+			roundNumberDisplay.classList.remove('hidden');
+		}, 200);
+
+		setTimeout(() => {
+			let cellSelectedIndex = (event.target as HTMLElement)
+				.closest('button')
+				?.getAttribute('id');
+			game.handleRound(cellSelectedIndex as any);
+
+			getGameInfoToDisplay();
+		}, 1000);
+	});
+
+    resetButton.addEventListener('click', () => {
+        
+        
+        game.resetGame();
+        player.setActivePlayer(0);
+       
+    });
+
+	return { getGameInfoToDisplay, roundNumberDisplay, playerTurnDisplay };
+})();
+
+handleGameDisplay.getGameInfoToDisplay();

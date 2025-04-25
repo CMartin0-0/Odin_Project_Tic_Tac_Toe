@@ -1,0 +1,98 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+#main {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto 1fr auto auto auto 1fr;
+    background: rgba(0, 0, 0, 0.26);
+}
+
+#gameboard {
+    display: grid;
+    height: 600px;
+    width: 600px;
+    grid-column: 2;
+    grid-row: 4;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-self: center;
+    justify-self: center;
+    box-shadow: 0px 0px 3px 2px black;
+}
+
+.board-cell {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+    font-size: 8rem;
+}
+
+#game-info {
+    display: grid;
+    grid-column: 1 / 4;
+    grid-row: 1;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    justify-self: center;
+    text-align: center;
+    width: 100%;
+}
+
+#game-title {
+    font-size: 2rem;
+    width: 50%;
+    justify-self: center;
+    border-bottom: 1px solid black;
+    text-shadow: 1px 1px black;
+}
+
+#game-description {
+    font-size: 1.1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+#round-info{
+    display: grid;
+    grid-row: 3;
+    grid-column: 1 / 4;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    width: 100%;
+}
+#round-number {
+    text-align: end;
+    width: 68%;
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+
+}
+
+#player-turn-info{
+    width: 80%;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+#reset {
+    grid-row: 5;
+    height: 25px;
+    width: 100px;
+    grid-column: 2;
+    margin-top: 5px;
+}
