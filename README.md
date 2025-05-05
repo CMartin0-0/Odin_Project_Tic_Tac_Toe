@@ -1,6 +1,6 @@
 # Odin Project - Tic Tac Toe Game 
 
-Welcome to my **Tic Tac Toe** game repository! This project is part of the [Odin Project]([https://www.theodinproject.com/](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)) curriculum and is implemented using **TypeScript**, **CSS**, and **HTML**.
+Welcome to my **Tic Tac Toe** game repository! This project is part of the [Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe) curriculum and is implemented using **TypeScript**, **CSS**, and **HTML**.
 
 ## Table of Contents
 
