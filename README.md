@@ -1,6 +1,6 @@
-# Tic Tac Toe - Odin Project
+# Odin Project - Tic Tac Toe Game 
 
-Welcome to the **Tic Tac Toe** game repository! This project is part of the [Odin Project]([https://www.theodinproject.com/](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)) curriculum and is implemented using **TypeScript**, **CSS**, and **HTML**.
+Welcome to my **Tic Tac Toe** game repository! This project is part of the [Odin Project]([https://www.theodinproject.com/](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)) curriculum and is implemented using **TypeScript**, **CSS**, and **HTML**.
 
 ## Table of Contents
 
@@ -37,11 +37,11 @@ Follow these steps to set up the project locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/CMartin0-0/Odin_Project_Tic_Tac_Toe.git
+   git clone https://github.com/CMartin0-0/Practice-Project--OdinProject_Tic_Tac_Toe_Game.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd Odin_Project_Tic_Tac_Toe
+   cd Practice-Project--OdinProject_Tic_Tac_Toe_Game
    ```
 3. Install dependencies:
    ```bash
