@@ -10,7 +10,6 @@ Welcome to my **Tic Tac Toe** game repository! This project is part of the [Odin
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## About the Project
 
@@ -78,11 +77,7 @@ Contributions are welcome! If you'd like to improve the project, feel free to fo
    git push origin feature/YourFeatureName
    ```
 5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
+   
 ---
 
 Feel free to reach out if you have any questions or feedback!
